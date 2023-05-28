@@ -1,14 +1,17 @@
 from django.urls import path
 # Импортируем созданное нами представление
-from .views import ProductsList
-
+from .views import CategoryList
+from .views import PostList, PostDetail
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
-   # path — означает путь.
-   # В данном случае путь ко всем товарам у нас останется пустым,
-   # чуть позже станет ясно почему.
-   # Т.к. наше объявленное представление является классом,
-   # а Django ожидает функцию, нам надо представить этот класс в виде view.
-   # Для этого вызываем метод as_view.
-   path('', ProductsList.as_view()),
-]
+      path('', CategoryList.as_view(), name='home'),
+      path('news/', PostList.as_view(), name='news'),
+      path('news/<int:post_id>', PostDetail.as_view(), name='post'),
+
+
+
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+

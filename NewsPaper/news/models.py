@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
 from datetime import datetime
+from django.core.validators import MinValueValidator
 
 
 class Author(models.Model):
@@ -38,6 +39,11 @@ CATEGORY_TYPES = [
 class Category(models.Model):
     name = models.CharField(max_length=2, unique=True, choices=CATEGORY_TYPES, default=weather)
 
+    def __str__(self):
+        return self.name.title()
+
+
+
 
 article = 'AR'
 news_ = 'NW'
@@ -66,6 +72,15 @@ class Post(models.Model):
 
     def preview(self):
         return self.content[:124] + '...'
+
+
+
+    def __str__(self):
+        return f'{self.header.title()}: {self.content[:20]}'
+
+
+
+
 
 
 class PostCategory(models.Model):
